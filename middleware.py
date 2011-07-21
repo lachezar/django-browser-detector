@@ -1,17 +1,18 @@
 from utils import *
 
-import settings
-
 class BrowserFilterMiddleware:
 
     def __init__(self):
+    
+        import settings
+        
         rules = settings.BROWSER_DETECTION_RULES
         self.ua_filters = []
         self.redirect_urls = set()
         
         for r in rules:
             if hasattr(r[0], '__call__'):
-                ua_filter_function = r[0]
+                ua_filter_function = r[0](*r[1:])
             else:
                 ua_filter_function = build_ua_filter(*r)
                 

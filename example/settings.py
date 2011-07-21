@@ -150,8 +150,12 @@ LOGGING = {
 }
 
 from django.core.urlresolvers import reverse_lazy
+from utils import MOZILLA, IE, WEBKIT, OPERA
 
 BROWSER_DETECTION_RULES = (
-    (r'mozilla(?:.*? rv:([\w.]+))?', reverse_lazy('unsupported'), 5.0),
+    (MOZILLA, reverse_lazy('unsupported'), 5),
+    (IE, reverse_lazy('unsupported'), 9),
+    (WEBKIT, reverse_lazy('unsupported'), 533),
+    (OPERA, reverse_lazy('unsupported'), 10),
 
 )
