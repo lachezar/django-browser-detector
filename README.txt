@@ -1,4 +1,4 @@
-Django Browser Detector
+# Django Browser Detector
 =======================
 
 This plugin serves as a simple middleware/decorator to redirect specific user-agents.
