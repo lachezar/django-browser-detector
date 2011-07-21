@@ -9,7 +9,9 @@ def _mozilla(redirect_url, version=None, negate=False):
         match = re.match(r'mozilla(?:.*? rv:([\w.]+))?', ua)
 
         if 'compatible' not in ua and 'safari' not in ua and 'chrome' not in ua and 'webkit' not in ua and match:
-            if version is None or match.group(1) < str(version):
+            if version is None or match.group(1) >= str(version):
+                return True
+            else:
                 return HttpResponseRedirect(redirect_url)
                 
         return None
@@ -32,14 +34,16 @@ def build_ua_filter(pattern, redirect_url, version=None, negate=False, compare=o
         match = pattern.search(ua.lower())
 
         if match:
-            if version is not None:
+            if version is None:
+                return True
+            else:
                 if match.groupdict().get('version', None) is not None:
                     ua_version = match.group('version')
                 else:
                     ua_version = match.group(1)
                 
                 if compare(ua_version, str(version)):
-                    return onsuccess
+                    return True
 
             return onfailure
         

@@ -26,7 +26,9 @@ class BrowserFilterMiddleware:
         
         for f in self.ua_filters:
             response = f(request.META['HTTP_USER_AGENT'])
-            if response is not None:
+            if response is True:
+                return None
+            elif response is not None:
                 return response
             
         return None
